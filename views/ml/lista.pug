@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1= title
+
+  div
+    a.uk-button.uk-button-danger.uk-button-small.uk-text-black(href=`/ml/`) Novo Item
+
+  div.uk-margin
+    h4 Itens #{context.length}
+
+    div
+      each pesquisa in context
+        div.uk-margin-small-bottom
+          a(href=`/ml/pesquisas/${pesquisa.id}`)= pesquisa.name

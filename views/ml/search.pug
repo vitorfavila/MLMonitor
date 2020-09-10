@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  h1= title
+
+  ul.uk-subnav
+    li
+      a(href="/ml") NOVO ITEM
+    li OUTROS ITENS:
+    each pesquisa in context.pesquisas
+      if pesquisa.id != context.pesquisa.id
+        li
+          a(href=`/ml/pesquisas/${pesquisa.id}`)= pesquisa.name
+
+  div
+    a.uk-button.uk-button-danger.uk-button-small.uk-text-black(href=`/ml/remove/${context.pesquisa.id}`) Excluir
+
+  h3 Termo da busca: "#{context.pesquisa.search}"
+  div 
+    h4 Exibindo <b>#{context.results.length}</b> de #{context.paging.total} itens encontrados
+    div(class="uk-child-width-1-5@m" uk-grid)
+      each product in context.results
+        div
+          div.uk-card.uk-card-default
+            div.uk-card-media-left.uk-cover-container
+              img(src=product.thumbnail, alt="imagem do anúncio" uk-cover style="object-fit: scale-down")
+              canvas(height="100")
+            div
+              div.uk-card-body
+                h4.uk-card-title= product.title
+                div(uk-grid) 
+                  div.uk-margin
+                    if product.condition.toUpperCase() === "NEW"
+                      div.uk-label.uk-label-success NOVO
+                    else
+                      div.uk-label USADO
+                  div.uk-text-bold R$ #{product.price}
+                div #{product.shipping.free_shipping ? "Entrega Grátis - " : ""}#{product.address.city_name} - #{product.address.state_name} - 
+                  a(href=product.permalink) Link
