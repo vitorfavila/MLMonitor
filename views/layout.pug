@@ -4,7 +4,27 @@ html
     title= title
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet")
   body
-    block content
+    nav.uk-navbar.uk-navbar-container.uk-margin-bottom.uk-container.uk-container-xlarge
+      div.uk-navbar-left
+        a.uk-navbar-item.uk-logo(href="/ml") Tracker
+        ul.uk-navbar-nav
+          li
+            a(href="/ml") Home
+          li
+            a(href="/ml/add") Adicionar Tracker
+          li
+            a(href="/ml/history/run") Atualizar histórico
+
+    div.uk-container.uk-container-xlarge
+      block content
     script(src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js")
     script(src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js")
+    script(src="https://cdn.amcharts.com/lib/5/index.js")
+    script(src="https://cdn.amcharts.com/lib/5/xy.js")
+    script(src="https://cdn.amcharts.com/lib/5/themes/Animated.js")
+    script(src="https://cdn.amcharts.com/lib/5/locales/pt_BR.js")
+    script(src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js")

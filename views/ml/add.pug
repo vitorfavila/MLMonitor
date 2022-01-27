@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  h2= title
+
+  form.uk-margin.uk-form-stacked(action="/ml/add" method="post")
+    div.uk-margin 
+      label.uk-form-label Nome
+      div.uk-form-controls
+        input.uk-input.uk-form-width-large(type="text" name="name")
+    div.uk-margin
+      label.uk-form-label Busca
+      div.uk-form-controls
+        input.uk-input.uk-form-width-large(type="text" name="search")
+    div.uk-margin 
+      label.uk-form-label Pós-filtro
+      div.uk-form-controls
+        input.uk-input.uk-form-width-large(type="text" name="posfilter")
+    div.uk-margin
+      label.uk-form-label Filtro de Exclusão
+      div.uk-form-controls
+        input.uk-input.uk-form-width-large(type="text" name="exclfilter")
+
+    button(type="submit").uk-button.uk-button-primary Cadastrar

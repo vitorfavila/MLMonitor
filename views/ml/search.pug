@@ -1,39 +1,69 @@
 extends ../layout
 
 block content
-  h1= title
+  div.uk-grid(uk-grid style="flex: 1; align-items: flex-end")
+    div.uk-width-1-1
+      h2.uk-heading-divider= title
+      a.uk-button.uk-button-danger.uk-button-small(href=`/ml/remove/${context.pesquisa.id}`) Excluir
 
-  ul.uk-subnav
-    li
-      a(href="/ml") NOVO ITEM
-    li OUTROS ITENS:
-    each pesquisa in context.pesquisas
-      if pesquisa.id != context.pesquisa.id
-        li
-          a(href=`/ml/pesquisas/${pesquisa.id}`)= pesquisa.name
+  //- ul.uk-subnav
+  //-   li OUTROS ITENS:
+  //-   each pesquisa in context.pesquisas
+  //-     if pesquisa.id != context.pesquisa.id
+  //-       li
+  //-         a(href=`/ml/${pesquisa.id}`)= pesquisa.name
 
-  div
-    a.uk-button.uk-button-danger.uk-button-small.uk-text-black(href=`/ml/remove/${context.pesquisa.id}`) Excluir
+  div.uk-margin
+    h4 Termo da busca: "#{context.pesquisa.search}"
 
-  h3 Termo da busca: "#{context.pesquisa.search}"
+  div.uk-margin.uk-grid
+    div.uk-width-1-2
+      form(action=`/ml/${context.pesquisa.id}/update/exclfilter` method="post")
+        | Exclusões: 
+        input.uk-input(type="text" name="value" value=`${context.pesquisa.exclfilter}`)
+        button.uk-button.uk-button-default Salvar
+    div.uk-width-1-2
+      form(action=`/ml/${context.pesquisa.id}/update/posfilter` method="post")
+        | Inclusões: 
+        input.uk-input(type="text" name="value" value=`${context.pesquisa.posfilter}`)
+        button.uk-button.uk-button-default Salvar
   div 
-    h4 Exibindo <b>#{context.results.length}</b> de #{context.paging.total} itens encontrados
-    div(class="uk-child-width-1-5@m" uk-grid)
+    div.uk-grid
+      div.uk-width-1-2
+        h5 Exibindo <b>#{context.results.length}</b> de #{context.paging.total} itens encontrados
+      div.uk-width-1-2
+        ul.uk-subnav.uk-subnav-pill
+          li(style="margin: 0 auto; padding-top: 4px") Ordenação
+          each method in context.sortMethods
+            if method.id === currentSortMethod.id
+              li.uk-active
+                a(href="#")=  method.name
+            else
+              li
+                a(href=`?sortBy=${method.id}`)=  method.name
+
+    div(class="uk-child-width-1-2@m" uk-grid)
       each product in context.results
-        div
-          div.uk-card.uk-card-default
-            div.uk-card-media-left.uk-cover-container
-              img(src=product.thumbnail, alt="imagem do anúncio" uk-cover style="object-fit: scale-down")
-              canvas(height="100")
+        div.uk-card.uk-card-default.uk-grid-collapse.uk-child-width-1-2.uk-margin.uk-grid(style="min-height: 600px")
+          div.uk-card-media-left.uk-cover-container
+            img(src=product.thumbnail, alt="imagem do anúncio" uk-cover)
+            canvas(width="600", height="400")
+          div.uk-card-body.uk-padding
+            div.uk-margin-small.uk-grid
+              div.uk-width-1-2
+                if product.condition.toUpperCase() === "NEW"
+                  div.uk-label.uk-label-success NOVO
+                else
+                  div.uk-label USADO
+              div.uk-width-1-2
+                a(href=product.permalink) Link
+            h3.uk-margin-small.uk-card-title= product.title
             div
-              div.uk-card-body
-                h4.uk-card-title= product.title
-                div(uk-grid) 
-                  div.uk-margin
-                    if product.condition.toUpperCase() === "NEW"
-                      div.uk-label.uk-label-success NOVO
-                    else
-                      div.uk-label USADO
-                  div.uk-text-bold R$ #{product.price}
-                div #{product.shipping.free_shipping ? "Entrega Grátis - " : ""}#{product.address.city_name} - #{product.address.state_name} - 
-                  a(href=product.permalink) Link
+              div.uk-margin-small
+                div.uk-text-lead R$ #{product.price}
+                div(style="display: flex; align-items: center") 
+                  div #{product.installments.quantity}x&nbsp; 
+                  div.uk-text-bold(class=`${product.installments.rate > 0 ? 'uk-label' : 'uk-label uk-label-success'}`) R$#{product.installments.amount.toFixed(0)}
+            div.uk-margin
+              div(class=`${product.shipping.free_shipping && "uk-label uk-label-success"}`) #{product.shipping.free_shipping && "Entrega Grátis "}
+              div #{product.address.state_name} - #{product.address.city_name}
