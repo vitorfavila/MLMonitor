@@ -65,5 +65,5 @@ block content
                   div #{product.installments.quantity}x&nbsp; 
                   div.uk-text-bold(class=`${product.installments.rate > 0 ? 'uk-label' : 'uk-label uk-label-success'}`) R$#{product.installments.amount.toFixed(0)}
             div.uk-margin
-              div(class=`${product.shipping.free_shipping && "uk-label uk-label-success"}`) #{product.shipping.free_shipping && "Entrega Grátis "}
+              div(class=`${product.shipping.free_shipping && "uk-label uk-label-success"}`) #{product.shipping.free_shipping ? "Entrega Grátis" : "Frete Pago"}
               div #{product.address.state_name} - #{product.address.city_name}
